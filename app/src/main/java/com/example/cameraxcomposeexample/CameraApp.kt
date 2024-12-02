@@ -30,6 +30,7 @@ import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
+import androidx.lifecycle.compose.LifecycleStartEffect
 import kotlinx.coroutines.launch
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
@@ -79,7 +80,7 @@ fun CameraPreview(
     }
 
     val scope = rememberCoroutineScope()
-    DisposableEffect(Unit) {
+    LifecycleStartEffect(Unit) {
         var cameraProvider: ProcessCameraProvider? = null
 
         scope.launch {
@@ -92,7 +93,7 @@ fun CameraPreview(
             )
         }
 
-        onDispose {
+        onStopOrDispose {
             cameraProvider?.unbindAll()
         }
     }
